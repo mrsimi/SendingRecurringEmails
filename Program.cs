@@ -1,16 +1,20 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Hangfire;
-using Hangfire.Logging;
-using Hangfire.Logging.LogProviders;
-using Hangfire.MemoryStorage;
-using Hangfire.SqlServer;
 using Hangfire.Storage.SQLite;
 
-GlobalConfiguration.Configuration.UseSQLiteStorage("Datfaasdd409.db"); 
-RecurringJob.AddOrUpdate(() => Console.WriteLine("Hello world"), Cron.Minutely);
+GlobalConfiguration.Configuration.UseSQLiteStorage("EnailService.db"); 
+RecurringJob.AddOrUpdate(() => EmailJob.SendEmail(), Cron.Minutely);
 
 using (new BackgroundJobServer())
 {
     Console.WriteLine("Hangfire Server started. Press ENTER to exit...");
     Console.ReadLine();
+}
+
+static class EmailJob
+{
+    public static void SendEmail()
+    {
+        Console.WriteLine($"Hello world {DateTime.Now}");
+    }
 }
